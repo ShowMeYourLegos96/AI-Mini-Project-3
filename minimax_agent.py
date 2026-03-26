@@ -9,7 +9,7 @@ def minimax(state):
             if value > best_value:
                 best_value = value
                 best_move = move
-            return best_move
+        return best_move
     else:
         # TODO: implement the symmetric case
         # for MIN.
@@ -22,7 +22,7 @@ def max_value(state):
     for move in state.get_legal_moves():
         child = state.make_move(move)
         v = max(v, min_value(child))
-        return v
+    return v
     
 def min_value(state):
     # TODO: implement. This is symmetric to
