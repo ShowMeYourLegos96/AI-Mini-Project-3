@@ -21,10 +21,10 @@ class TicTacToe:
         # object; do not modify self.
         new_game = TicTacToe()
         new_game.board = [row[:] for row in self.board] # Deep copy of the board
-        new_game.current_player = -self.current_player # Swtching players
+        new_game.current_player = -self.current_player # Switching players
         new_game.board[move // 3][move % 3] = self.current_player
         return new_game
-        pass
+        
 
     def is_terminal(self):
         # Return True if the game is over, either
@@ -33,7 +33,7 @@ class TicTacToe:
         if self.check_winner() != 0:
             return True
         return all(self.board[i // 3][i % 3] != 0 for i in range(9))
-        pass
+        
 
     def utility(self):
         # Return +1 if X has won, -1 if O has won,
