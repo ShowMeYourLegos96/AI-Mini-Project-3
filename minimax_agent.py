@@ -1,3 +1,5 @@
+import game
+
 def minimax(state):
     # Return the best move for the current player.
     if state.current_player == 1:
@@ -13,7 +15,15 @@ def minimax(state):
     else:
         # TODO: implement the symmetric case
         # for MIN.
-        pass
+        worst_value = float('inf')
+        worst_move = None
+        for move in state.get_legal_moves():
+            child = state.make_move(move)
+            value = max_value(child)
+            if value < worst_value:
+                worst_value = value
+                worst_move = move
+        return worst_move
 
 def max_value(state):
     if state.is_terminal():
@@ -27,22 +37,46 @@ def max_value(state):
 def min_value(state):
     # TODO: implement. This is symmetric to
     # max_value, but minimizes instead.
-    pass
-
-
-# ADDED ALPHA-BETA PRUNING
-def max_value_ab(state, alpha, beta):
     if state.is_terminal():
         return state.utility()
-    v = float('-inf')
+    v = float('inf')
     for move in state.get_legal_moves():
         child = state.make_move(move)
-        v = max(v, min_value_ab(child, alpha, beta))
-        if v >= beta:
-            return v # Beta cutoff
-        alpha = max(alpha, v)
+        v = min(v, max_value(child))
     return v
 
-def min_value_ab(state, alpha, beta):
-    # TODO: implement with alpha cutoff.
-    pass
+
+# # ADDED ALPHA-BETA PRUNING
+# def max_value_ab(state, alpha, beta):
+#     if state.is_terminal():
+#         return state.utility()
+#     v = float('-inf')
+#     for move in state.get_legal_moves():
+#         child = state.make_move(move)
+#         v = max(v, min_value_ab(child, alpha, beta))
+#         if v >= beta:
+#             return v # Beta cutoff
+#         alpha = max(alpha, v)
+#     return v
+
+# def min_value_ab(state, alpha, beta):
+#     # TODO: implement with alpha cutoff.
+#     pass
+
+
+def main():
+    state = game.TicTacToe()
+
+    state = state.make_move(4)
+    state = state.make_move(2)
+    best = minimax(state)
+    print(best)
+    state = state.make_move(best)
+    state.display()
+    best = minimax(state)
+    state = state.make_move(best)
+    state.display()
+    
+
+if __name__ == "__main__":
+    main()
