@@ -9,18 +9,19 @@
 '''
 #Minimax vs Random, record numbers of wins for X(minimax) and O(random), and number of draws and put it on a table
 from game import TicTacToe
+
 from minimax_agent import minimax
 
 def play_game(agent_x, agent_o):
-    game = TicTacToe()
-    while not game.is_terminal():
-        if game.current_player == 1:
-            move = agent_x(game)
+    games = TicTacToe()
+    while not games.is_terminal():
+        if games.current_player == 1:
+            move = agent_x(games)
         else:
-            move = agent_o(game)
-            game = game.make_move(move)
+            move = agent_o(games)
+            games = games.make_move(move)
 
-    return game.utility()
+    return games.utility()
 
 
 #MTCs with 1000 iterations vs Random, record numbers of wins for X(MCTS) and O(random), and number of draws and put it on a table
