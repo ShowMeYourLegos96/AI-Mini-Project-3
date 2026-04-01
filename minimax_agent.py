@@ -1,4 +1,5 @@
 import game
+counter = 0
 
 def minimax(state):
     # Return the best move for the current player.
@@ -26,6 +27,9 @@ def minimax(state):
         return worst_move
 
 def max_value(state):
+    global counter 
+    counter += 1
+    # base case: the game is over
     if state.is_terminal():
         return state.utility()
     v = float('-inf')
@@ -35,8 +39,10 @@ def max_value(state):
     return v
     
 def min_value(state):
-    # TODO: implement. This is symmetric to
-    # max_value, but minimizes instead.
+    # minimizing 
+    global counter 
+    counter += 1
+    # base case: the game is over
     if state.is_terminal():
         return state.utility()
     v = float('inf')
@@ -46,36 +52,23 @@ def min_value(state):
     return v
 
 
-# # ADDED ALPHA-BETA PRUNING
-# def max_value_ab(state, alpha, beta):
-#     if state.is_terminal():
-#         return state.utility()
-#     v = float('-inf')
-#     for move in state.get_legal_moves():
-#         child = state.make_move(move)
-#         v = max(v, min_value_ab(child, alpha, beta))
-#         if v >= beta:
-#             return v # Beta cutoff
-#         alpha = max(alpha, v)
-#     return v
-
-# def min_value_ab(state, alpha, beta):
-#     # TODO: implement with alpha cutoff.
-#     pass
-
-
 def main():
     state = game.TicTacToe()
 
+    print(counter)
     state = state.make_move(4)
     state = state.make_move(2)
     best = minimax(state)
     print(best)
+    print(counter)
     state = state.make_move(best)
     state.display()
+    print(counter)
+
     best = minimax(state)
     state = state.make_move(best)
     state.display()
+    print(counter)
     
 
 if __name__ == "__main__":
