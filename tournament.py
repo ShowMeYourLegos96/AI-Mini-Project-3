@@ -7,7 +7,6 @@ import mcts_agent
 
 def play_game(agent_x, agent_o):
     games = TicTacToe()
-    # print("beegin")
     while not games.is_terminal():
         if games.current_player == 1:
             move = agent_x(games)

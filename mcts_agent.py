@@ -161,6 +161,33 @@ def test_blocking_move():
     move = mcts(game_, iterations=500)
     print(f"MCTS move: {move}")
 
+
+def play_game_mini(agent_x):
+    games = game.TicTacToe()
+    while not games.is_terminal():
+        if games.current_player == 1:
+            move = agent_x(games)
+            games = games.make_move(move)
+        else:
+            games.display()
+            print("Enter your move:")
+            move = input()
+            valid = False
+            while not valid:
+                if int(move) not in games.get_legal_moves() or int(move) < 0 or int(move) > 8:
+                    print("Invalid move. Please try another value.")
+                    print(games.get_legal_moves())
+                    move = input()
+                else:
+                    valid = True
+
+            games = games.make_move(int(move))
+            
+    games.display()
+
+    return games.utility()
+
+
 def main():
     print("***** Tests under different states *****")
     game_ = game.TicTacToe()
@@ -171,6 +198,23 @@ def main():
     print(f"MCTS move: {move}")
     test_winning_move()
     test_blocking_move()
+    
+    
+    print("Play against MCTS? Y/N")
+    user_choice = input()
+    if user_choice == "Y":
+        result = play_game_mini(mcts)
+        if result == 1:
+            print("Minimax won.")
+        elif result == -1:
+            print("Congratulations! You won.")
+        else:
+            print("Draw.")
+
+    
+
+
+    
 
 if __name__ == "__main__":
     main()
