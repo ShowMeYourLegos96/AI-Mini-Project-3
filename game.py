@@ -1,3 +1,4 @@
+
 class TicTacToe:
     def __init__(self):
         # Initialize an empty 3x3 board
