@@ -2,7 +2,6 @@
 class TicTacToe:
     def __init__(self):
         # Initialize an empty 3x3 board
-        
         # Board is a 3x3 list of lists:
         # 0 = empty, 1 = X, -1 = O
         # X always moves first
@@ -13,14 +12,20 @@ class TicTacToe:
         # Return a list of indices (0 through 8)
         # corresponding to the empty squares.
         return [i for i in range(9) if self.board[i // 3][i % 3] == 0]
-        pass
 
     def make_move(self, move):
         # Place the current player's mark at the
         # given index. Return a NEW TicTacToe
-        # object; do not modify self.
+        # object; do not modify self.        
         new_game = TicTacToe()
         new_game.board = [row[:] for row in self.board] # Deep copy of the board
+        new_game.current_player = self.current_player 
+
+        # illegal moves are not played
+        if move not in self.get_legal_moves() or move < 0 or move > 8:
+            print("Invalid move.")
+            return new_game
+        
         new_game.current_player = -self.current_player # Switching players
         new_game.board[move // 3][move % 3] = self.current_player
         return new_game
@@ -67,12 +72,40 @@ class TicTacToe:
         return 0
     
 
-
     def display(self):
         # Print the board in a readable 3x3 format.
         # Use 'X' for 1, 'O' for -1, '.' for 0.
         symbols = {1: 'X', -1: 'O', 0: '.'}
         for row in self.board:
             print(' '.join(symbols[cell] for cell in row))
+
+
+def new_move(game:TicTacToe, move):
+    print(f"{game.current_player}'s MOVE")
+    new_game = game.make_move(move)
+
+    print("New Board: ")
+    new_game.display()
+    print(f"Is terminal: {new_game.is_terminal()}")
+    print(f"Current player: {new_game.current_player}")
+    print(f"Legal Moves: {new_game.get_legal_moves()}")
+
+    return new_game
+
+
+def main():
+    game = TicTacToe()
+    
+    move0 = new_move(game, 8)
+    move1 = new_move(move0, 8)
+    move2 = new_move(move1, 9)
+    move3 = new_move(move2, 0)
+    move4 = new_move(move3, 5)
+    move5 = new_move(move4, 3)
+    move6 = new_move(move5, 2)
+
+
+if __name__ == "__main__":
+    main()
         
     
